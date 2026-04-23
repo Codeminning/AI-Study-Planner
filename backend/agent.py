@@ -8,7 +8,7 @@ from typing import List, Dict
 api_key = os.getenv("GEMINI_API_KEY")
 if api_key:
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-flash-latest") # Attempting with flash-latest model
+    model = genai.GenerativeModel("gemini-1.5-flash") # Using stable 1.5 flash model
 else:
     model = None
 
