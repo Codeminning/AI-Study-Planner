@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Calendar, Clock, BookOpen, BrainCircuit, Sparkles, AlertCircle } from 'lucide-react';
 import Layout from '../components/Layout';
 import { supabase } from '../lib/supabase';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export default function CreatePlan() {
   const [formData, setFormData] = useState({
@@ -32,7 +33,7 @@ export default function CreatePlan() {
       };
       
       const { data: { session } } = await supabase.auth.getSession();
-      await axios.post('http://localhost:8000/create-plan', payload, {
+      await axios.post(`${API_BASE_URL}/create-plan`, payload, {
         headers: { Authorization: `Bearer ${session?.access_token}` }
       });
       setSuccess(true);

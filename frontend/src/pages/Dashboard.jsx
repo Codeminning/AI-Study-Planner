@@ -18,6 +18,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import Layout from '../components/Layout';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export default function Dashboard() {
   const [tasks, setTasks] = useState([]);
@@ -34,7 +35,7 @@ export default function Dashboard() {
   const fetchTasks = async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await axios.get('http://localhost:8000/tasks', {
+      const res = await axios.get(`${API_BASE_URL}/tasks`, {
         headers: { Authorization: `Bearer ${session?.access_token}` }
       });
       setTasks(res.data);
@@ -50,7 +51,7 @@ export default function Dashboard() {
     setTasks(tasks.map(t => t.id === taskId ? { ...t, status: newStatus } : t));
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      await axios.put(`http://localhost:8000/tasks/${taskId}`, { status: newStatus }, {
+      await axios.put(`${API_BASE_URL}/tasks/${taskId}`, { status: newStatus }, {
         headers: { Authorization: `Bearer ${session?.access_token}` }
       });
     } catch (error) {
@@ -62,7 +63,7 @@ export default function Dashboard() {
     setRescheduling(true);
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      await axios.post('http://localhost:8000/reschedule', { hours_per_day: 2 }, {
+      await axios.post(`${API_BASE_URL}/reschedule`, { hours_per_day: 2 }, {
         headers: { Authorization: `Bearer ${session?.access_token}` }
       });
       await fetchTasks();
@@ -87,7 +88,7 @@ export default function Dashboard() {
     setLoadingContent(true);
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await axios.get(`http://localhost:8000/task-content/${task.id}`, {
+      const res = await axios.get(`${API_BASE_URL}/task-content/${task.id}`, {
         headers: { Authorization: `Bearer ${session?.access_token}` }
       });
       setTaskContent(res.data);
