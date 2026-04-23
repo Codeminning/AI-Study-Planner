@@ -1,0 +1,51 @@
+# -----------------------------
+# ENV & SECRETS (CRITICAL)
+# -----------------------------
+.env
+.env.*
+
+# -----------------------------
+# PYTHON BACKEND
+# -----------------------------
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# -----------------------------
+# NODE / FRONTEND
+# -----------------------------
+node_modules
+dist
+dist-ssr
+*.local
+
+# -----------------------------
+# LOGS
+# -----------------------------
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# -----------------------------
+# SYSTEM FILES
+# -----------------------------
+.DS_Store
+
+# -----------------------------
+# EDITOR FILES
+# -----------------------------
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
