@@ -12,6 +12,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.104.0",
     "@tailwindcss/postcss": "^4.2.4",
+    "@vercel/analytics": "^2.0.1",
     "autoprefixer": "^10.5.0",
     "axios": "^1.15.2",
     "date-fns": "^4.1.0",

@@ -5,6 +5,7 @@ import CreatePlan from './pages/CreatePlan';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import { Analytics } from '@vercel/analytics/react';
 
 function ProtectedRoute({ children }) {
   const [session, setSession] = useState(null);
@@ -63,6 +64,7 @@ function App() {
           <Route path="/plan" element={<ProtectedRoute><CreatePlan /></ProtectedRoute>} />
         </Routes>
       </Router>
+      <Analytics />
     </ErrorBoundary>
   );
 }
