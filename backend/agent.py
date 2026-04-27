@@ -1,22 +1,18 @@
 import os
 import json
-import google.generativeai as genai
+from google import genai
 from datetime import date, timedelta
 from typing import List, Dict
 
 # Configure Gemini
 api_key = os.getenv("GEMINI_API_KEY")
-if api_key:
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-1.5-flash") # Using stable 1.5 flash model
-else:
-    model = None
+client = genai.Client(api_key=api_key) if api_key else None
 
 def generate_study_plan(subjects: List[str], topics: str, start_date: date, deadline: date, hours_per_day: float) -> List[Dict]:
     """
     Calls Google Gemini to generate a day-wise study plan.
     """
-    if not model:
+    if not client:
         print("Gemini API Key not configured")
         return []
 
@@ -54,7 +50,10 @@ Example format:
     """
 
     try:
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(
+            model="gemini-1.5-flash",
+            contents=prompt
+        )
         content = response.text.strip()
         
         # Strip potential markdown formatting
@@ -82,7 +81,7 @@ def reschedule_tasks(pending_tasks: List[Dict], start_date: date, hours_per_day:
     """
     Given a list of pending tasks, rebalance them starting from `start_date`.
     """
-    if not model or not pending_tasks:
+    if not client or not pending_tasks:
         return []
         
     tasks_str = json.dumps(pending_tasks)
@@ -105,7 +104,10 @@ Each object must have:
     """
 
     try:
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(
+            model="gemini-1.5-flash",
+            contents=prompt
+        )
         content = response.text.strip()
         
         if content.startswith("```json"):
@@ -125,7 +127,7 @@ def generate_task_content(topic: str) -> Dict:
     """
     Calls Google Gemini to generate detailed content, key points, and resources for a specific task topic.
     """
-    if not model:
+    if not client:
         print("Gemini API Key not configured")
         return {}
 
@@ -144,7 +146,10 @@ Please return ONLY a JSON object containing the following keys. Do not include m
 Ensure the output is strictly valid JSON format.
 """
     try:
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(
+            model="gemini-1.5-flash",
+            contents=prompt
+        )
         content = response.text.strip()
         
         # Strip potential markdown formatting
@@ -160,4 +165,3 @@ Ensure the output is strictly valid JSON format.
     except Exception as e:
         print(f"Failed to generate task content with Gemini: {str(e)}")
         return {}
-
